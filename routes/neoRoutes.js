@@ -1,14 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const neoController = require('../controllers/neoController');
-const { validateNEORequest } = require('../middlewares/requestValidator');
+const { validateAPODRequest } = require('../middlewares/requestValidator');
 const { apiLimiter } = require('../config/rateLimiting');
 
-router.get(
-    '/neo',
-    apiLimiter,
-    validateNEORequest,
-    neoController.getNEO
-);
+// More strict rate limiting for Mars endpoint (NASA API has stricter limits)
+router.get('/getNeo', apiLimiter, validateAPODRequest, neoController.getNEO);
+
 
 module.exports = router;
